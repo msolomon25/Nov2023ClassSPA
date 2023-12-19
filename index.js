@@ -16,6 +16,16 @@ function render(state = store.Home) {
   `;
 
   router.updatePageLinks();
+  //Add to capstone?v
+  afterRender();
+}
+
+//add web JS here! v
+function afterRender() {
+  // add menu toggle to bars icon in nav bar. pizza code not for capstone
+  document.querySelector(".fa-bars").addEventListener("click", () => {
+    document.querySelector("nav > ul").classList.toggle("hidden--mobile");
+  });
 }
 
 router
@@ -35,7 +45,3 @@ router
 
 
 
-// add menu toggle to bars icon in nav bar
-// document.querySelector(".fa-bars").addEventListener("click", () => {
-//   doc });ument.querySelector("nav > ul").classList.toggle("hidden--mobile");
-//

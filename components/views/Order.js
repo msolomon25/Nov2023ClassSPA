@@ -7,7 +7,7 @@ export default () => html`
       <div>
         <label for="crust">Crust:</label>
         <select id="crust" name="crust">
-          <option value="">Select a Crust</option>
+          <option value="">Select a Crustt</option>
           <option value="thin">Thin</option>
           <option value="chicago">Chicago</option>
           <option value="deep-dish">Deep Dish</option>
