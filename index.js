@@ -8,6 +8,7 @@ import axios from "axios";
 
 const router = new Navigo("/");
 
+// grabs the div id root and replaces its inner html with the stuff after the = below. render could be called anything
 function render(state = store.Home) {
   document.querySelector("#root").innerHTML = `
     ${Header(state)}
@@ -27,6 +28,33 @@ function afterRender() {
   document.querySelector(".fa-bars").addEventListener("click", () => {
     document.querySelector("nav > ul").classList.toggle("hidden--mobile");
   });
+
+  //outputs form info in inspect, and sends pizza to pizza page review at 8 30 in nov 21st class video
+  if (state.view === "Order"){
+    document.querySelector("form").addEventListener("submit", event =>{
+
+      console.log(event.target.elements);
+      //outputs customer
+      console.log(event.target.elements.customer.value);
+      //outputs cheese type
+      console.log(event.target.elements.cheese.value);
+    });
+
+    store.Pizza.pizzas.push({
+      cheese: event.target.elements.cheese.value,
+      crust: event.target.elements.crust.value,
+      customer: event.target.elements.customer.value,
+      sauce: event.target.elements.sauce.value,
+      toppings: []
+    });
+
+    console.log(store.Pizza.pizzas);
+
+    router.navigate("/Pizza");
+  }
+
+
+
 }
 
 router.hooks({
@@ -38,7 +66,7 @@ router.hooks({
         : "Home";
     // Add a switch case statement to handle multiple routes
     switch (view) {
-      // New Case for the Home View
+      // New Case for the Home View Calls info on home page
       case "Home":
         axios
           // Get request to retrieve the current weather data using the API key and providing a city name
@@ -73,16 +101,17 @@ router.hooks({
           });
         break;
 
-      // Add a case for each view that needs data from an API
+      // Add a case for each view that needs data from an API Calls info on pizza page
       case "Pizza":
         // New Axios get request utilizing already made environment variable
         axios
           .get(`${process.env.PIZZA_PLACE_API_URL}/pizzas`) //hidden api call <-
+
           .then(response => {
             // We need to store the response to the state, in the next step but in the meantime let's see what it looks like so that we know what to store from the response.
             console.log("response", response.data);
 
-            //lets pizza orders show on pizza page v
+            //lets pizza orders show on pizza page v comment out if using the pizza if statement
             store.Pizza.pizzas = response.data;
 
             //lets pizza orders show on pizza page v
@@ -109,6 +138,8 @@ router.hooks({
   }
 });
 
+
+// fires when page loads
 router
   .on({
     "/": () => render(),
